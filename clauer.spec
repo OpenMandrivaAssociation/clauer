@@ -152,7 +152,8 @@ EOF
 %clean
 rm -rf %{buildroot}
 
-%post -p /sbin/ldconfig
+%post
+/sbin/ldconfig
 %_post_service clos
 /sbin/service clos reload > /dev/null 2>&1 || :
 
