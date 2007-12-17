@@ -30,7 +30,6 @@ Requires(pre):	rpm-helper
 BuildRequires:	libopenssl-devel
 BuildRequires:	ImageMagick
 BuildRequires:	autoconf
-BuildRoot:	%{_tmppath}/%{name}-buildroot
 
 %description
 This is a software that converts a simple CD-ROM or a USB flash disk
