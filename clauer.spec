@@ -153,14 +153,18 @@ EOF
 rm -rf %{buildroot}
 
 %post
+%if %mdkversion < 200900
 /sbin/ldconfig
+%endif
 %_post_service clos
 /sbin/service clos reload > /dev/null 2>&1 || :
 
 %preun
 %_preun_service clos
 
+%if %mdkversion < 200900
 %postun -p /sbin/ldconfig
+%endif
 
 %files -f %{name}-utils.lang
 %defattr(-,root,root)
