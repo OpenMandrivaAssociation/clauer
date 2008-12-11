@@ -28,7 +28,7 @@ Source5:	clauer-uninstall.png
 Patch0:		clauer-no-install-hooks.patch
 Requires(pre):	rpm-helper
 BuildRequires:	libopenssl-devel
-BuildRequires:	ImageMagick
+BuildRequires:	imagemagick
 BuildRequires:	autoconf
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 
