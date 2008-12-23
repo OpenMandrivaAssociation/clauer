@@ -1,16 +1,20 @@
+%define _disable_ld_as_needed		1
+%define _disable_ld_no_undefined	1
+
+
 %define name	clauer
-%define version	3.0.0
+%define version	3.0.2
 %define beta	0
 %if %{beta}
 %define release		%mkrel 0.beta.1
 %define filevers	%{version}-beta
 %else
-%define release		%mkrel 4
+%define release		%mkrel 1
 %define filevers	%{version}
 %endif
 
 #stop automatic dependencies
-%define _requires_exceptions devel(libCRYPTOWrap)\\|devel(libRT)
+%define _requires_exceptions devel(libCRYPTOWrap)\\|devel(libRT)\\|devel(libcrypto)\\|devel(libgcc_s)\\|devel(libm)\\|devel(libssl)\\|devel(libstdc++)
 
 Name:		%{name}
 Version:	%{version}
@@ -74,7 +78,7 @@ install -m 644 clauer-utils/clauer-utils_ca.mo %{buildroot}/usr/share/locale/ca/
 
 #html pages to install/uninstall pkcs11 module from firefox
 mkdir -p %{buildroot}%{_datadir}/clauer
-perl -pi -e "s,---LIBDIR---,%{_libdir},g" %{SOURCE2} > %{buildroot}%{_datadir}/clauer/install-clauer-firefox.html
+perl -pl -e "s,---LIBDIR---,%{_libdir},g" %{SOURCE2} > %{buildroot}%{_datadir}/clauer/install-clauer-firefox.html
 install -m 644 %{SOURCE3} %{buildroot}%{_datadir}/clauer
 
 #icons
