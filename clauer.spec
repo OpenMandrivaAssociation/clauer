@@ -9,17 +9,17 @@
 %define release		%mkrel 0.beta.2
 %define filevers	%{version}-beta
 %else
-%define release		%mkrel 1
+%define release		%mkrel 2
 %define filevers	%{version}
 %endif
 
 #stop automatic dependencies
-%define _requires_exceptions devel(libCRYPTOWrap)\\|devel(libRT)\\|devel(libcrypto)\\|devel(libgcc_s)\\|devel(libm)\\|devel(libssl)\\|devel(libstdc++)
+%define _requires_exceptions devel(.*)
 
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-Summary:	Clauer - Cryptographic keyring on a USB storage device
+Summary:	Cryptographic keyring on a USB storage device
 License:	BSD-like
 Group:		System/Servers
 URL:		http://clauer.nisu.org/
@@ -29,12 +29,13 @@ Source2:	install-clauer-firefox.html
 Source3:	uninstall-clauer-firefox.html
 Source4:	clauer.png
 Source5:	clauer-uninstall.png
-Patch0:		clauer-no-install-hooks.patch
+Patch0:		ClauerLinux-3.0.2-no-install-hooks.patch
+Patch1:		ClauerLinux-3.0.2-fix-configure.patch
 Requires(pre):	rpm-helper
 BuildRequires:	libopenssl-devel
 BuildRequires:	imagemagick
 BuildRequires:	autoconf
-BuildRoot:	%{_tmppath}/%{name}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 This is a software that converts a simple CD-ROM or a USB flash disk
@@ -46,10 +47,11 @@ x509 certificates and use them in a transparent way.
 %prep
 %setup -q -n ClauerLinux-%{version}
 %patch0 -p1 -b .nohooks
+%patch1 -p1 -b .configure
 
 %build
 # required by patch0
-autoreconf
+autoreconf -fi
 
 %configure2_5x
 %make
