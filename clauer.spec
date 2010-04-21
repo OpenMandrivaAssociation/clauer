@@ -1,7 +1,3 @@
-%define _disable_ld_as_needed		1
-%define _disable_ld_no_undefined	1
-
-
 %define name	clauer
 %define version	3.0.2
 %define beta	0
@@ -31,6 +27,7 @@ Source4:	clauer.png
 Source5:	clauer-uninstall.png
 Patch0:		ClauerLinux-3.0.2-no-install-hooks.patch
 Patch1:		ClauerLinux-3.0.2-fix-configure.patch
+Patch2:		ClauerLinux-3.0.2-link.patch
 Requires(pre):	rpm-helper
 BuildRequires:	libopenssl-devel
 BuildRequires:	imagemagick
@@ -48,6 +45,7 @@ x509 certificates and use them in a transparent way.
 %setup -q -n ClauerLinux-%{version}
 %patch0 -p1 -b .nohooks
 %patch1 -p1 -b .configure
+%patch2 -p0 -b .link
 
 %build
 # required by patch0
