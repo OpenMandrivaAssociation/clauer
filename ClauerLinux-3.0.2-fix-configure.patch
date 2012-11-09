@@ -1,0 +1,44 @@
+diff -Naur -x '*~' -x '*.rej' -x '*.orig' ClauerLinux-3.0.2-no-install-hooks/configure.in ClauerLinux-3.0.2-fix-configure/configure.in
+--- ClauerLinux-3.0.2-no-install-hooks/configure.in	2009-10-09 00:04:41.000000000 +0200
++++ ClauerLinux-3.0.2-fix-configure/configure.in	2009-10-09 00:06:38.000000000 +0200
+@@ -142,10 +142,9 @@
+ 	
+ AC_MSG_CHECKING(where to look for OpenSSL)
+     CPPFLAGS="$CPPFLAGS -L$SSL_LIBRARIES_PATH" 
+-LIB_SSLPATH="SSL_LIBRARIES_PATH" 
++LIB_SSLPATH="$SSL_LIBRARIES_PATH" 
+ 
+ AC_MSG_RESULT($SSL_LIBRARIES_PATH)
+-LIB_SSLPATH="-L$SSL_LIBRARIES_PATH"
+ fi
+ 
+ 
+@@ -173,7 +172,7 @@
+ dnl Check if we can found the needed ssl and pthread include
+ dnl and libreries.
+ 
+-LDFLAGS="$LDFLAGS $LIB_SSLPATH -L$PTHREAD_LIBRARY_PATH -L$LIB_PATH";
++LDFLAGS="$LDFLAGS -L$LIB_SSLPATH -L$PTHREAD_LIBRARY_PATH -L$LIB_PATH";
+ AC_CHECK_LIB(pthread,pthread_create,,
+ AC_MSG_WARN([We can't links against the pthread library])
+ AC_MSG_ERROR([Perhaps you need to use the --with-pthread-library directive])
+@@ -212,8 +211,8 @@
+ fi 
+ 
+ 
+-AC_SUBST(LIB_SSLPATH,LIB_SSLPATH)
+-AC_SUBST(INC_SSLPATH,INC_SSLPATH)
++AC_SUBST(LIB_SSLPATH, $LIB_SSLPATH)
++AC_SUBST(INC_SSLPATH, $INC_SSLPATH)
+ 
+ AC_OUTPUT([Makefile clio/Makefile CRYPTOWrapper/Makefile LIBRT/Makefile  LIBIMPORT/Makefile clos/Makefile clauer-utils/Makefile pkcs11/Makefile])
+ 
+diff -Naur -x '*~' -x '*.rej' -x '*.orig' ClauerLinux-3.0.2-no-install-hooks/pkcs11/Makefile.am ClauerLinux-3.0.2-fix-configure/pkcs11/Makefile.am
+--- ClauerLinux-3.0.2-no-install-hooks/pkcs11/Makefile.am	2009-10-09 00:04:51.000000000 +0200
++++ ClauerLinux-3.0.2-fix-configure/pkcs11/Makefile.am	2009-10-09 00:06:11.000000000 +0200
+@@ -4,4 +4,4 @@
+ libclauerpkcs11_la_SOURCES = certif.cpp certx509.cpp clauer.cpp clave.cpp clvprvda.cpp clvrsa.cpp common.cpp lobjeto.cpp log.cpp mechanism.cpp objeto.cpp pkcs11.cpp  slot.cpp threads.cpp certif.h  certx509.h  clauer.h  clave.h  clvprvda.h  clvrsa.h  common.h  lobjeto.h  log.h  mechanism.h  objeto.h  pkcs11f.h  pkcs11.h  pkcs11t.h  slot.h threads.h
+ 
+ INCLUDES = -O4 -DLINUX -D_UNIX  -I../  # -DDEBUG
+-libclauerpkcs11_la_LIBADD = -L @LIB_SSLPATH@ -lssl -lcrypto ../CRYPTOWrapper/libCRYPTOWrap.la ../LIBRT/libRT.la
++libclauerpkcs11_la_LIBADD = -L@LIB_SSLPATH@ -lssl -lcrypto ../CRYPTOWrapper/libCRYPTOWrap.la ../LIBRT/libRT.la
