@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>
+Desinstalació del suport clauer per a Firefox. 
+</title>
+</head>
+<body>
+  <script language="javascript">
+	try {
+		res= pkcs11.deletemodule("Modul pkcs11 Clauer");
+		if ( res == 2 ){
+			document.write("<br>El mòdul s'ha desinstal·lat correctament.<br>");
+		}
+		else if ( res == -4 ){
+			document.write("<br>Sembla que el mòdul no existeix.<br>");
+		}
+		else if ( res == -2 ){
+			document.write("<br>S'ha cancel·lat l'operació.");
+		}
+	}
+	catch(e){
+		document.write("Aquest navegador no està suportat,");
+		document.write(" aquest suport és per a navegadors Firefox/Mozilla i derivats.");
+	}
+  </script>
+</body>
+</html>

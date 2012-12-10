@@ -2,15 +2,19 @@
 %define version	3.0.2
 %define beta	0
 %if %{beta}
-%define release		%mkrel 0.beta.3
+%define release		%mkrel 0.beta.4
 %define filevers	%{version}-beta
 %else
-%define release		%mkrel 3
+%define release		%mkrel 4
 %define filevers	%{version}
 %endif
 
 #stop automatic dependencies
+%if %{_use_internal_dependency_generator}
+%define __noautoreq 'devel\\(.*\\)'
+%else
 %define _requires_exceptions devel(.*)
+%endif
 
 Name:		%{name}
 Version:	%{version}
@@ -180,4 +184,52 @@ rm -rf %{buildroot}
 %{_datadir}/applications/*
 %{_iconsdir}/hicolor/*/apps/*
 %{_libdir}/lib*
+
+
+
+%changelog
+* Sun Dec 05 2010 Oden Eriksson <oeriksson@mandriva.com> 3.0.2-3mdv2011.0
++ Revision: 610141
+- rebuild
+
+* Wed Apr 21 2010 Funda Wang <fwang@mandriva.org> 3.0.2-2mdv2010.1
++ Revision: 537528
+- fix linkage
+
+* Fri Oct 09 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.2-2mdv2010.0
++ Revision: 456218
+- fix build
+- fix dependencies on x86_64
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+* Tue Dec 23 2008 Adam Williamson <awilliamson@mandriva.org> 3.0.2-1mdv2009.1
++ Revision: 317799
+- various fixes from Luca Olivetti (#45347):
+  	+ disable underlinking protection
+  	+ more dependency exceptions
+  	+ fix the substitution so it doesn't generate a 0-byte file
+- new release 3.0.2
+
+  + Oden Eriksson <oeriksson@mandriva.com>
+    - lowercase ImageMagick
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+* Wed Jan 02 2008 Olivier Blin <oblin@mandriva.com> 3.0.0-2mdv2008.1
++ Revision: 140694
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Thu Sep 13 2007 Adam Williamson <awilliamson@mandriva.org> 3.0.0-2mdv2008.0
++ Revision: 85216
+- fix %%post
+- Import clauer
 

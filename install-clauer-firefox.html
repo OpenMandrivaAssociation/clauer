@@ -1,0 +1,54 @@
+<html>
+<head>		
+<title>		
+Instalació del suport clauer per a Firefox. 
+</title>
+</head>
+<body> 
+  <script language="javascript">
+	var ok= 0;
+	function setup(){
+		try{
+       	     netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+            	var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+                		getService(Components.interfaces.nsIPrefBranch)
+            	var a= prefs.setCharPref("security.default_personal_cert","Ask Every Time");
+			alert("Configuració modificada amb èxit.");
+		}
+		catch(e){
+			alert("No es va poder canviar les preferències.");
+		}
+		
+	}
+
+	try{
+		res= pkcs11.addmodule("Modul pkcs11 Clauer","---LIBDIR---/libclauerpkcs11.so",0x1<<28,0);
+		if ( res == 3 ){
+			document.write("El mòdul s'ha instal·lat correctament.<br>");
+			ok=1;
+		}
+		else if ( res == -10 ){
+			document.write("<br>Sembla que el mòdul ja existeix, si el que vol és desinstal·lar-lo");
+			document.write("<br>obri la pàgina de <a href=\"uninstall-clauer-firefox.html\">desinstalació</a><br>");
+			ok=1;
+		}
+		else if ( res == -2 ){
+			document.write("<br>S'ha cancel·lat l'operació.");
+		}
+		else{
+			document.write("<br>No s'ha pogut instal·lar el mòdul res= " + res + "<br>");
+		}
+	}
+	catch(e){
+		document.write("Aquest navegador no està suportat,");
+		document.write(" aquest suport és per a navegadors Firefox/Mozilla i derivats.");
+	}
+
+if ( ok ){ 
+	document.write("<table><tr><td><br>És aconsellable que modifiqui algunes opcions de configuració de Mozilla Firefox,<br>\
+			    pot fer-lo de forma automàtica pressionant el següent botó:</td></tr>")
+	document.write("<tr><td align=\"center\"><form><input type=\"button\" value=\"Canviar Configuració\" onclick=\"setup()\" ></form></td></tr></table>");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+#!/bin/sh
+#
+# Startup script for clos (Clauer Operating System)
+#
+# chkconfig: 345 92 8
+# description: Starts and stops the Clauer Operating System
+# processname: clos
+#
+### BEGIN INIT INFO
+# Provides: clos
+# Required-Start: $network
+# Required-Stop: $network
+# Default-Start: 3 5
+# Short-Description: Clauer Operating System
+# Description:  Starts and stops the Clauer Operating System
+#               to access an encrypted partition on an usb
+#               memory stick as a pkcs11 security device.
+### END INIT INFO
+
+#CONFIG_FILE=/etc/closrc
+
+prog="clos"
+
+# Source function library.
+if [ -f /etc/init.d/functions ] ; then
+	. /etc/init.d/functions
+elif [ -f /etc/rc.d/init.d/functions ] ; then
+	. /etc/rc.d/init.d/functions
+else
+	exit 0
+fi
+      
+# Get config.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+if [ ${NETWORKING} = "no" ]
+then
+        exit 0
+fi
+
+# check how we were called
+case "$1" in
+	start)
+	PID=`pidof -s clos`
+	if [ -z "$PID" ]; then
+	if [ -e /usr/sbin/clos ]; then
+		
+		action "Starting %s: " "$prog" /bin/true
+		/usr/sbin/clos
+			
+	else
+	        action "Starting %s: binaries not found " "$prog" /bin/false
+	fi
+	else
+	        action "Starting %s: already running (%s) " "$PID" "$prog" /bin/false
+	fi
+        touch /var/lock/subsys/clos
+	;;
+
+	stop)
+	PID=`pidof -s clos`
+	if [ "$PID" ]; then
+	        action "Stopping %s: " "$prog" kill -3 $PID
+        fi
+        rm -f /var/lock/subsys/clos
+	;;
+
+	status)
+	PID=`pidof -s clos`
+	if [ "$PID" ]; then
+	gprintf "%s is running! ($PID)\n" "$prog"
+	else
+	gprintf "%s is not running!\n" "$prog" ;
+	fi
+	;;
+
+	restart|reload)
+	$0 stop && $0 start
+	;;
+
+
+	*)
+	gprintf "usage: %s {start|stop|status|restart}\n" $0
+	;;
+esac
+
+exit 0
