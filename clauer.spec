@@ -5,7 +5,7 @@
 %define release		%mkrel 0.beta.4
 %define filevers	%{version}-beta
 %else
-%define release		%mkrel 4
+%define release		5
 %define filevers	%{version}
 %endif
 
