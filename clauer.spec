@@ -22,7 +22,7 @@ Release:	%{release}
 Summary:	Cryptographic keyring on a USB storage device
 License:	BSD-like
 Group:		System/Servers
-URL:		http://clauer.nisu.org/
+URL:		https://clauer.nisu.org/
 Source0:	ClauerLinux-%{filevers}.tar.gz
 Source1:	clos
 Source2:	install-clauer-firefox.html
