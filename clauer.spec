@@ -33,6 +33,10 @@ Patch0:		ClauerLinux-3.0.2-no-install-hooks.patch
 Patch1:		ClauerLinux-3.0.2-fix-configure.patch
 Patch2:		ClauerLinux-3.0.2-link.patch
 Requires(pre):	rpm-helper
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	libopenssl-devel
 BuildRequires:	imagemagick
 BuildRequires:	autoconf
