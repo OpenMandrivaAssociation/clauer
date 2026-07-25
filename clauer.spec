@@ -2,10 +2,10 @@
 %define version	3.0.2
 %define beta	0
 %if %{beta}
-%define release		%mkrel 0.beta.4
+%define release 1
 %define filevers	%{version}-beta
 %else
-%define release		5
+%define release 6
 %define filevers	%{version}
 %endif
 
